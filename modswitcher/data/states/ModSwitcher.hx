@@ -10,6 +10,10 @@ function create() {
 		}
 	}
 	trace(mods);
+
+	for (i in mods) {
+		
+	}
 }
 
 function update(elapsed:Float) {
