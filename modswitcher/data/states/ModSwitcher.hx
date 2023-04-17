@@ -1,38 +1,59 @@
-import haxe.io.Path;
 import funkin.assets.ModsFolder;
 import sys.FileSystem;
-import flixel.FlxSprite;
-import funkin.assets.Paths;
-import funkin.menus.MainMenuState;
+import sys.io.File;
+import openfl.display.BitmapData;
+import haxe.Json;
+import ModItem;
 
-class ModSwitcher extends funkin.editors.ui.UIState {
-	public var mods:Array<String> = [];
-	public var sprites:Array<FlxSprite> = [];
-	public function new() {
-		super();
-
-		for (modFolder in FileSystem.readDirectory(ModsFolder.modsPath)) {
-			if (FileSystem.isDirectory(ModsFolder.modsPath+modFolder)) {
-				mods.push(modFolder);
-			}
-		}
-		trace(mods);
-
-		for (i in mods) {
-			var spr:FlxSprite = new FlxSprite(360*(mods.indexOf(i))+50, 25).loadGraphic(Paths.image('what'));
-			spr.scale.set(0.5, 0.5);
-			spr.updateHitbox();
-			sprites.push(spr);
-			add(spr);
+var mods:Array<String> = [];
+var shitmods = [];
+var poster:FlxSprite;
+var curSelected:Int = 0;
+function create() {
+	for (modFolder in FileSystem.readDirectory(ModsFolder.modsPath)) {
+		if (FileSystem.isDirectory(ModsFolder.modsPath+modFolder)) {
+			mods.push(modFolder);
 		}
 	}
+	trace(mods);
 
-	public function update(elapsed:Float) {
-		super.update(elapsed);
+	poster = new FlxSprite();
+	if (FileSystem.exists(ModsFolder.modsPath+mods[curSelected]+'/poster.png')) poster.loadGraphic(BitmapData.fromFile(ModsFolder.modsPath+mods[curSelected]+'/poster.png'));
+	else poster.loadGraphic(Paths.image('what'));
+	add(poster);
+	poster.scrollFactor.set();
+	poster.color = 0xFF4A3F4C;
 
-		if (FlxG.keys.justPressed.EIGHT)
-			FlxG.switchState(new ModSwitcher());
-		if (FlxG.keys.justPressed.ESCAPE)
-			FlxG.switchState(new MainMenuState());
+	for (i in mods) {
+		var spr:ModItem = new ModItem(288*(mods.indexOf(i))+(25*(mods.indexOf(i)+1)), 25, mods[mods.indexOf(i)], mods);
+		add(spr);
+
+		if (!FileSystem.exists(ModsFolder.modsPath+mods[mods.indexOf(i)]+'/modconfig.json')) {
+			trace('Mod "'+mods[mods.indexOf(i)]+'" does not have a modconfig.json!');
+
+			var text:FlxText = new FlxText(spr.x, spr.y+spr.height, 0, 'No modconfig.json found!', 53);
+			text.font = Paths.file('fonts/cool.ttf');
+			add(text);
+			text.alpha = 0;
+			shitmods.push([spr, text]);
+		}
+		else {
+			var ass = Json.parse(File.getContent(ModsFolder.modsPath+mods[mods.indexOf(i)]+'/modconfig.json'));
+			var text:FlxText = new FlxText(spr.x, spr.y+spr.height, 0, ass.title, 53);
+			text.font = Paths.file('fonts/cool.ttf');
+			add(text);
+			text.alpha = 0;
+			shitmods.push([spr, text, mods[mods.indexOf(i)]]);
+		}
 	}
+}
+
+function update(elapsed:Float) {
+	if (FlxG.keys.justPressed.EIGHT)
+		FlxG.switchState(new ModState('ModSwitcher'));
+	if (FlxG.keys.justPressed.ESCAPE)
+		FlxG.switchState(new MainMenuState());
+
+	if (FlxG.keys.pressed.LEFT) FlxG.camera.scroll.x -= 50;
+	if (FlxG.keys.pressed.RIGHT) FlxG.camera.scroll.x += 50;
 }
