@@ -9,6 +9,7 @@ var mods:Array<String> = [];
 var shitmods = [];
 var poster:FlxSprite;
 var curSelected:Int = 0;
+var description:FlxText;
 function create() {
 	FlxG.mouse.visible = true;
 
@@ -45,9 +46,15 @@ function create() {
 			text.font = Paths.file('fonts/cool.ttf');
 			add(text);
 			text.alpha = 0;
-			shitmods.push([spr, text, mods[mods.indexOf(i)]]);
+			shitmods.push([spr, text, ass]);
 		}
 	}
+
+	var json = Json.parse(File.getContent(ModsFolder.modsPath+mods[curSelected]+'/modconfig.json'));
+	description = new FlxText(FlxG.width/2, FlxG.height/1.85, FlxG.width/2, json.description, 25);
+	description.font = Paths.file('fonts/cool.ttf');
+	add(description);
+	description.scrollFactor.set();
 }
 
 function update(elapsed:Float) {
@@ -56,13 +63,18 @@ function update(elapsed:Float) {
 	if (FlxG.keys.justPressed.ESCAPE)
 		FlxG.switchState(new MainMenuState());
 
-	if (FlxG.keys.pressed.LEFT) FlxG.camera.scroll.x -= 50;
-	if (FlxG.keys.pressed.RIGHT) FlxG.camera.scroll.x += 50;
+	if (FlxG.keys.pressed.LEFT && FlxG.camera.scroll.x != 0) FlxG.camera.scroll.x -= 10;
+	if (FlxG.keys.pressed.RIGHT) FlxG.camera.scroll.x += 10;
 
 	for (i in shitmods) {
 		if (i[0].hovering) {
 			i[1].alpha = FlxMath.lerp(i[1].alpha, 1, 0.12);
 			i[1].y = FlxMath.lerp(i[1].y, i[0].y+i[0].height+10, 0.06);
+			description.text = i[2]!=null?i[2].description:'No modconfig.json found!';
+
+			if (FlxG.mouse.justPressed) {
+				trace(i[1].text);
+			}
 		} else {
 			i[1].alpha = FlxMath.lerp(i[1].alpha, 0, 0.24);
 			i[1].y = FlxMath.lerp(i[1].y, i[0].y+i[0].height, 0.06);

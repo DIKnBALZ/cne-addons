@@ -27,7 +27,7 @@ class ModItem extends flixel.FlxSprite {
 	public function update(elapsed:Float) {
 		super.update(elapsed);
 		hovering = FlxG.mouse.overlaps(this);
-		
+
 		if (hovering) {
 			if (!playedSound) {
 				FlxG.sound.play(Paths.sound('menu/scroll'));
