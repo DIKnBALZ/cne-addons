@@ -74,6 +74,9 @@ function update(elapsed:Float) {
 
 			if (FlxG.mouse.justPressed) {
 				trace(i[1].text);
+				if (i[1].text != 'No modconfig.json found!') {
+					ModsFolder.switchMod(i[1].text);
+				}
 			}
 		} else {
 			i[1].alpha = FlxMath.lerp(i[1].alpha, 0, 0.24);
