@@ -10,6 +10,8 @@ var shitmods = [];
 var poster:FlxSprite;
 var curSelected:Int = 0;
 function create() {
+	FlxG.mouse.visible = true;
+
 	for (modFolder in FileSystem.readDirectory(ModsFolder.modsPath)) {
 		if (FileSystem.isDirectory(ModsFolder.modsPath+modFolder)) {
 			mods.push(modFolder);
@@ -56,4 +58,14 @@ function update(elapsed:Float) {
 
 	if (FlxG.keys.pressed.LEFT) FlxG.camera.scroll.x -= 50;
 	if (FlxG.keys.pressed.RIGHT) FlxG.camera.scroll.x += 50;
+
+	for (i in shitmods) {
+		if (i[0].hovering) {
+			i[1].alpha = FlxMath.lerp(i[1].alpha, 1, 0.12);
+			i[1].y = FlxMath.lerp(i[1].y, i[0].y+i[0].height+10, 0.06);
+		} else {
+			i[1].alpha = FlxMath.lerp(i[1].alpha, 0, 0.24);
+			i[1].y = FlxMath.lerp(i[1].y, i[0].y+i[0].height, 0.06);
+		}
+	}
 }
