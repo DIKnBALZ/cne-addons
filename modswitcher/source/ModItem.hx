@@ -1,5 +1,5 @@
-import funkin.assets.Paths;
-import funkin.assets.ModsFolder;
+import funkin.backend.assets.Paths;
+import funkin.backend.assets.ModsFolder;
 import sys.FileSystem;
 import sys.io.File;
 import openfl.display.BitmapData;

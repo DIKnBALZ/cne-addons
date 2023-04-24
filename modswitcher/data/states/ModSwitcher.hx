@@ -1,4 +1,4 @@
-import funkin.assets.ModsFolder;
+import funkin.backend.assets.ModsFolder;
 import sys.FileSystem;
 import sys.io.File;
 import openfl.display.BitmapData;
@@ -20,7 +20,7 @@ function create() {
 	}
 	trace(mods);
 
-	poster = new FlxSprite();
+	poster = new FlxSprite().loadGraphic(Paths.image('what'));
 	if (FileSystem.exists(ModsFolder.modsPath+mods[curSelected]+'/poster.png')) poster.loadGraphic(BitmapData.fromFile(ModsFolder.modsPath+mods[curSelected]+'/poster.png'));
 	else poster.loadGraphic(Paths.image('what'));
 	add(poster);
@@ -71,6 +71,15 @@ function update(elapsed:Float) {
 			i[1].alpha = FlxMath.lerp(i[1].alpha, 1, 0.12);
 			i[1].y = FlxMath.lerp(i[1].y, i[0].y+i[0].height+10, 0.06);
 			description.text = i[2]!=null?i[2].description:'No modconfig.json found!';
+
+			// remove(poster);
+			// if (FileSystem.exists(ModsFolder.modsPath+mods[curSelected]+'/poster.png')) {
+			// 	poster.loadGraphic(BitmapData.fromFile(ModsFolder.modsPath+mods[curSelected]+'/poster.png'));
+			// } else {
+			// 	poster.loadGraphic(Paths.image('what'));
+			// }
+			// poster.color = 0xFF4A3F4C;
+			// add(poster);
 
 			if (FlxG.mouse.justPressed) {
 				trace(i[1].text);
