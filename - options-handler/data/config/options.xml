@@ -1,0 +1,7 @@
+<!DOCTYPE codename-mod-options>
+<menu name="Addons Options" desc="yosh said that this doesn't work yet aww mann :(">
+	<checkbox id="addon-f8" name="console f eight" />
+	<checkbox id="addon-modswitcher" name="mod switcher" />
+    <!-- playstate shit ? not sure if we still need lolol -->
+	<checkbox id="addon-wizcoins" name="mario coins" />
+</menu>
