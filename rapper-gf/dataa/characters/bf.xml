@@ -1,0 +1,14 @@
+<!DOCTYPE codename-engine-character>
+<character x="-55" camx="-130" icon="gf" y="395" scale="1" camy="-170" flipX="true" isPlayer="true" holdTime="4">
+	<anim x="-5" loop="false" y="180" fps="24" anim="BF idle dance" name="idle"/>
+	<anim x="-6" loop="false" y="180" fps="24" anim="BF NOTE LEFT0" name="singLEFT"/>
+	<anim x="-44" loop="false" y="163" fps="24" anim="BF NOTE DOWN0" name="singDOWN"/>
+	<anim x="-4" loop="false" y="179" fps="24" anim="BF NOTE UP0" name="singUP"/>
+	<anim x="-19" loop="false" y="180" fps="24" anim="BF NOTE RIGHT0" name="singRIGHT"/>
+	<anim x="-7" loop="false" y="180" fps="24" anim="BF NOTE LEFT MISS" name="singLEFTmiss"/>
+	<anim x="-45" loop="false" y="156" fps="24" anim="BF NOTE DOWN MISS" name="singDOWNmiss"/>
+	<anim x="-6" loop="false" y="179" fps="24" anim="BF NOTE UP MISS" name="singUPmiss"/>
+	<anim x="-20" loop="false" y="179" fps="24" anim="BF NOTE RIGHT MISS" name="singRIGHTmiss"/>
+	<anim x="-6" loop="false" y="180" fps="24" anim="BF HEY" name="hey"/>
+	<anim x="-5" loop="true" y="179" fps="24" anim="BF idle shaking" name="scared"/>
+</character>
