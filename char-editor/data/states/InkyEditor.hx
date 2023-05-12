@@ -182,9 +182,10 @@ function update(elapsed:Float) {
 	if (FlxG.mouse.justPressed && mouseOverlapsChar()) {
 		dragging = true;
 		startOffset = [FlxG.mouse.getWorldPosition(charcam).x, FlxG.mouse.getWorldPosition(charcam).y];
-		if (globalCheckbox.checked) startOffset2 = [character.offset.x, character.offset.y];
-		else startOffset2 = [character.globalOffset.x, character.globalOffset.y];
-	} else if (FlxG.mouse.justPressedRight && mouseOverlapsChar()) {
+		if (globalCheckbox.checked) {startOffset2 = [character.offset.x, character.offset.y];}
+		else {startOffset2 = [character.globalOffset.x, character.globalOffset.y];}
+	}
+	if (FlxG.mouse.justPressedRight && mouseOverlapsChar()) {
 		if (!globalCheckbox.checked){
 			character.offset.x = 0;
 			character.animOffsets[character.getAnimName()].x = character.offset.x;
