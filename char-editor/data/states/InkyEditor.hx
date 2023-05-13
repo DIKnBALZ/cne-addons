@@ -4,6 +4,10 @@ import funkin.editors.ui.UIState;
 import funkin.editors.ui.UITopMenu;
 import funkin.editors.ui.UIWarningSubstate;
 
+import lime.ui.FileDialog;
+import sys.io.File;
+import lime.ui.FileDialogType;
+
 import haxe.ds.StringMap;
 
 var charcam:FlxCamera;
@@ -173,6 +177,24 @@ function create() {
 	for (anim in character.xml.elementsNamed("anim")) {
 		animXmls.set(anim.get("name"), anim);
 	}
+
+	if (character.playerOffsets) {
+		CoolUtil.switchAnimFrames(character.animation.getByName('singRIGHT'), character.animation.getByName('singLEFT'));
+		CoolUtil.switchAnimFrames(character.animation.getByName('singRIGHTmiss'), character.animation.getByName('singLEFTmiss'));
+		character.switchOffset('singLEFT', 'singRIGHT');
+		character.switchOffset('singLEFTmiss', 'singRIGHTmiss');
+		character.flipX = !character.flipX;
+		character.__baseFlipped = character.flipX;
+		character.isPlayer = true;
+
+		CoolUtil.switchAnimFrames(ghostCharacter.animation.getByName('singRIGHT'), ghostCharacter.animation.getByName('singLEFT'));
+		CoolUtil.switchAnimFrames(ghostCharacter.animation.getByName('singRIGHTmiss'), ghostCharacter.animation.getByName('singLEFTmiss'));
+		ghostCharacter.switchOffset('singLEFT', 'singRIGHT');
+		ghostCharacter.switchOffset('singLEFTmiss', 'singRIGHTmiss');
+		ghostCharacter.flipX = !ghostCharacter.flipX;
+		ghostCharacter.__baseFlipped = ghostCharacter.flipX;
+		ghostCharacter.isPlayer = true;
+	}
 }
 
 function update(elapsed:Float) {
@@ -222,11 +244,14 @@ function update(elapsed:Float) {
 			animXmls[animList[curAnim]].set("y", character.animOffsets[animList[curAnim]].y);
 		} else {
 			character.globalOffset.x = startOffset2[0] + (FlxG.mouse.getWorldPosition(charcam).x - startOffset[0]);
+			ghostCharacter.globalOffset.x = character.globalOffset.x;
 			character.xml.set("x", character.globalOffset.x);
 
 			character.globalOffset.y = startOffset2[1] + (FlxG.mouse.getWorldPosition(charcam).y - startOffset[1]);
+			ghostCharacter.globalOffset.y = character.globalOffset.y;
 			character.xml.set("y", character.globalOffset.y);
 
+			ghostCharacter.playAnim('idle', false);
 			character.playAnim(animList[curAnim], false);
 		}
 	}
@@ -260,4 +285,64 @@ function mouseOverlapsChar() { // i stole this code from YCE im sorry yosh
 		&& character.x - (character.offset.x) + (character.frameWidth * character.scale.y) > mousePos.x
 		&& character.y - (character.offset.y) < mousePos.y
 		&& character.y - (character.offset.y) + (character.frameHeight * character.scale.y) > mousePos.y);
+}
+
+function save() {
+	var xmlString = "<!DOCTYPE codename-engine-character>\n" + Std.string(character.xml);
+	while (StringTools.contains(xmlString, "\n\n"))
+		xmlString = StringTools.replace(xmlString, "\n\n", "");
+	xmlString = StringTools.replace(xmlString, "/>\n\n</", "/>\n</");
+
+	var fDial = new FileDialog();
+	fDial.onSelect.add(function(file) {
+		File.saveContent(file, xmlString);
+	});
+	fDial.browse(FileDialogType.SAVE, 'xml', null, 'Save your Codename Engine Character XML.');
+}
+
+function openChar(file) {
+	var fileName = file.split('\\');
+	fileName = fileName[fileName.length - 1].split('.');
+	fileName = fileName[fileName.length - 2];
+	remove(ghostCharacter);
+	remove(character);
+	ghostCharacter = new Character(ghostCharacter.x, ghostCharacter.y, fileName, false);
+	ghostCharacter.cameras = [charcam];
+	ghostCharacter.playAnim('idle', true);
+	ghostCharacter.alpha = 0.5;
+	add(ghostCharacter);
+	character = new Character(character.x, character.y, fileName, false);
+	character.cameras = [charcam];
+	add(character);
+	animList = [];
+	for (anim in character.animOffsets.keys())
+	{
+		var offsets = character.animOffsets[anim];
+		if (offsets == null || !character.hasAnimation(anim)) continue;
+		animList.push(anim);
+	}
+	character.playAnim(animList[curAnim], true);
+
+	animXmls = new StringMap();
+	for (anim in character.xml.elementsNamed("anim")) {
+		animXmls.set(anim.get("name"), anim);
+	}
+
+	if (character.playerOffsets) {
+		CoolUtil.switchAnimFrames(character.animation.getByName('singRIGHT'), character.animation.getByName('singLEFT'));
+		CoolUtil.switchAnimFrames(character.animation.getByName('singRIGHTmiss'), character.animation.getByName('singLEFTmiss'));
+		character.switchOffset('singLEFT', 'singRIGHT');
+		character.switchOffset('singLEFTmiss', 'singRIGHTmiss');
+		character.flipX = !character.flipX;
+		character.__baseFlipped = character.flipX;
+		character.isPlayer = true;
+
+		CoolUtil.switchAnimFrames(ghostCharacter.animation.getByName('singRIGHT'), ghostCharacter.animation.getByName('singLEFT'));
+		CoolUtil.switchAnimFrames(ghostCharacter.animation.getByName('singRIGHTmiss'), ghostCharacter.animation.getByName('singLEFTmiss'));
+		ghostCharacter.switchOffset('singLEFT', 'singRIGHT');
+		ghostCharacter.switchOffset('singLEFTmiss', 'singRIGHTmiss');
+		ghostCharacter.flipX = !ghostCharacter.flipX;
+		ghostCharacter.__baseFlipped = ghostCharacter.flipX;
+		ghostCharacter.isPlayer = true;
+	}
 }
