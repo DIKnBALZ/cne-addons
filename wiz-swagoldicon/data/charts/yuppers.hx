@@ -3,7 +3,7 @@ var altIcon:HealthIcon;
 function postCreate() {
     altIcon = new HealthIcon('bf-thebetterversion', true);
     altIcon.cameras = [camHUD];
-    add(altIcon);
+    insert(members.indexOf(iconP1) + 1, altIcon);
 }
 
 function update(elapsed:Float) {
