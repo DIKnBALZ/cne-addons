@@ -197,7 +197,7 @@ function openStage(file) {
 	stage.applyCharStuff(boyfriend, 'boyfriend', 'bf');
 	add(boyfriend);
 
-	charName = stage.stageXML.get("defaultDad")!=null?stage.stageXML.get("defaultDad"):'impostor';
+	charName = stage.stageXML.get("defaultDad")!=null?stage.stageXML.get("defaultDad"):'dad';
 	remove(dad);
 	dad = new Character(0, 0, charName);
 	dad.cameras = [stagecam];
