@@ -1,7 +1,8 @@
 // this will def not work but fuck it we ball
 
 import haxe.Json;
-var oCheck = Json.parse("addons/options.json");
+import sys.io.File;
+var oCheck = Json.parse(File.getContent("addons/options.json"));
 
 var isStreamsOnly:Bool = true;
 var noteCount:Int = 1000;
