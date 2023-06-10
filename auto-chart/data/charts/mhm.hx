@@ -3,6 +3,7 @@
 import haxe.Json;
 import sys.io.File;
 var oCheck = Json.parse(File.getContent("addons/options.json"));
+if (oCheck.toggle_autochart != true) return;
 
 var isStreamsOnly:Bool = true;
 var noteCount:Int = 1000;
@@ -12,9 +13,6 @@ scrollSpeed = 3;
 var prevNote:Int = FlxG.random.int(0, 3);
 
 function create() {
-    trace(oCheck.toggle_autochart);
-    // if (oCheck.toggle_autochart != true) return;
-
     var noteBG = new FlxSprite(FlxG.width / 2, 0).makeGraphic(1, 1, 0x8D000000);
     noteBG.setGraphicSize(FlxG.width, FlxG.height);
     noteBG.updateHitbox();
