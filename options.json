@@ -1,3 +1,5 @@
 {
-    "toggle_autochart" : true
+    "toggle_autochart" : true,
+    "toggle_coins" : true,
+    "toggle_hblerp" : true
 }
