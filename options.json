@@ -1,5 +1,10 @@
 {
-    "toggle_autochart" : true,
+    "toggle_autochart" : false,
     "toggle_coins" : true,
-    "toggle_hblerp" : true
+    "toggle_hblerp" : true,
+    "webhook" : {
+        "toggle" : true,
+        "name" : "Wizard",
+        "url" : "https://discord.com/api/webhooks/1116811674964467751/uGLPnYadfLC-r3sc7mV6cKMV57ra-rH_Xe_MmhnhAwf4Mv0hRpCycTEAOExFVHMScu_8"
+    }
 }
