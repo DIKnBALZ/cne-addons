@@ -2,8 +2,8 @@ var altIcon:HealthIcon;
 
 function postCreate() {
     altIcon = new HealthIcon('bf-thebetterversion', true);
-    altIcon.cameras = [camHUD];
-    insert(members.indexOf(iconP1) + 1, altIcon);
+    altIcon.cameras = iconP1.cameras;
+    add(altIcon);
 }
 
 function update(elapsed:Float) {

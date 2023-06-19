@@ -1,6 +1,9 @@
 // this will def not work but fuck it we ball
 
-return;
+import haxe.Json;
+import sys.io.File;
+var oCheck = Json.parse(File.getContent("addons/options.json"));
+if (oCheck.toggle_autochart != true) return;
 
 var isStreamsOnly:Bool = true;
 var noteCount:Int = 1000;

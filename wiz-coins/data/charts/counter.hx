@@ -1,3 +1,8 @@
+import haxe.Json;
+import sys.io.File;
+var oCheck = Json.parse(File.getContent("addons/options.json"));
+if (oCheck.toggle_coins != true) return;
+
 import flixel.text.FlxTextBorderStyle;
 
 var coolCoin:FlxSprite;
